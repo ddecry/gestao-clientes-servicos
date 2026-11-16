@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>WS Gestão</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<section id="login">
+  <div class="l-form">
+    <form class="login-card" id="fLogin" onsubmit="return doLogin(event)">
+      <div class="logo"><span class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><circle cx="12" cy="12" r="6"/></svg></span><span><b>WS Gestão</b><small></small></span></div>
+      <h1>Acesso restrito</h1>
+      <label for="lEmail">E-mail</label><input id="lEmail" type="email" autocomplete="username" required placeholder="voce@email.com">
+      <label for="lPass">Senha</label><div class="pw"><input id="lPass" type="password" autocomplete="current-password" required placeholder="Sua senha"><button type="button" title="Mostrar senha" onclick="const i=$('#lPass');i.type=i.type==='password'?'text':'password'"><i data-ic="eye"></i></button></div>
+      <div class="l-row"><label><input type="checkbox" id="lRem"> Manter conectado</label><button type="button" class="link" onclick="showForgot(true)">Esqueceu a senha?</button></div>
+      <div id="lErr" class="err"></div>
+      <button class="btn full" style="height:44px">Entrar</button>
+    </form>
+    <form class="login-card hidden" id="fForgot" onsubmit="return doForgot(event)">
+      <div class="logo"><span class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><circle cx="12" cy="12" r="6"/></svg></span><span><b>WS Gestão</b><small></small></span></div>
+      <h1>Recuperar senha</h1>
+      <p style="font-size:13px;margin-top:-12px">O administrador receberá o pedido e definirá uma nova senha.</p>
+      <label for="fEmail">E-mail</label><input id="fEmail" type="email" required placeholder="voce@email.com">
+      <div id="fMsg"></div>
+      <button class="btn full" style="height:44px">Enviar pedido</button>
+      <div style="text-align:center;margin-top:16px"><button type="button" class="link" onclick="showForgot(false)">Voltar para o login</button></div>
+    </form>
+  </div>
+</section>
+
+<div id="app" class="hidden">
+  <aside>
+    <div class="logo"><span class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><circle cx="12" cy="12" r="6"/></svg></span><span><b>WS Gestão</b><small></small></span></div>
+    <button class="nav on" data-v="board"><i data-ic="board"></i>Quadro de vendas</button>
+    <button class="nav" data-v="clients"><i data-ic="users"></i>Clientes</button>
+    <button class="nav" data-v="tasks"><i data-ic="cal"></i>Agenda</button>
+    <button class="nav" data-v="payments"><i data-ic="card"></i>Financeiro</button>
+    <button class="nav" data-v="services"><i data-ic="shield"></i>Configurações</button>
+    <div class="me-w"><button class="me" onclick="event.stopPropagation();$('#meMenu').classList.toggle('hidden')"><div class="av" id="meAv"></div><span class="me-n"><b id="meName"></b><small id="meRole"></small></span><i data-ic="chev"></i></button>
+      <div id="meMenu" class="me-menu hidden"><button onclick="minhaConta()"><i data-ic="key"></i>Alterar senha</button><button onclick="logout()"><i data-ic="logout"></i>Sair</button></div></div>
+  </aside>
+  <main>
+    <div class="top">
+      <div class="tt"><h2 id="title">Quadro de vendas</h2><div class="sub" id="sub"></div></div>
+      <div class="search-w"><i data-ic="search"></i><input id="q" placeholder="Buscar cliente..." oninput="render()"></div>
+      <button class="bell" onclick="toggleBell()" title="Lembretes"><i data-ic="bell"></i><b id="bellN" class="hidden"></b></button>
+      <button class="btn" onclick="editClient()"><i data-ic="plus"></i>Novo cliente</button>
+    </div>
+    <div id="bellDrop" class="drop hidden"></div>
+    <div id="view"></div>
+  </main>
+</div>
+
+<div id="modalRoot"></div>
+
+<script src="assets/js/core/dados.js"></script>
+<script src="assets/js/core/estado.js"></script>
+<script src="assets/js/core/icones.js"></script>
+<script src="assets/js/core/utils.js"></script>
+<script src="assets/js/components/modal.js"></script>
+<script src="assets/js/components/sino.js"></script>
+<script src="assets/js/auth/login.js"></script>
+<script src="assets/js/pages/quadro.js"></script>
+<script src="assets/js/pages/clientes.js"></script>
+<script src="assets/js/pages/ficha-cliente.js"></script>
+<script src="assets/js/pages/servicos.js"></script>
+<script src="assets/js/pages/financeiro.js"></script>
+<script src="assets/js/pages/configuracoes.js"></script>
+<script src="assets/js/pages/agenda.js"></script>
+<script src="assets/js/pages/documentos.js"></script>
+<script src="assets/js/main.js"></script>
+</body>
+</html>

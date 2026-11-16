@@ -1,0 +1,19 @@
+/* Página de acompanhamento do cliente (portal.html) */
+.portal{background:var(--bg)}
+.p-top{background:#fff;border-bottom:1px solid var(--line);padding:16px 20px;text-align:center;font-size:15px}
+.p-main{max-width:640px;margin:0 auto;padding:20px 16px 40px}
+.p-main h1{font-size:22px;margin:4px 0 2px}
+.p-etapa{display:inline-block;margin:8px 0 20px;background:var(--pri-soft);color:var(--pri);font-weight:600;font-size:13px;border-radius:20px;padding:5px 12px}
+.p-card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:14px}
+.p-card h2{font-size:16px;margin:0 0 4px}
+.p-card h3{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin:16px 0 8px}
+.p-linha{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px solid var(--line);font-size:14px}
+.p-linha:last-child{border-bottom:0}
+.p-check{display:flex;gap:8px;align-items:center;padding:4px 0;font-size:14px}
+.p-check span{width:18px;height:18px;border-radius:50%;border:2px solid var(--line);flex:none;display:grid;place-items:center;font-size:11px;color:#fff}
+.p-check.ok span{background:var(--ok);border-color:var(--ok)}
+.p-check.ok{color:var(--muted)}
+.p-barra{height:6px;background:var(--line);border-radius:4px;overflow:hidden;margin:8px 0 2px}.p-barra i{display:block;height:100%;background:var(--ok)}
+.p-recado{border-left:3px solid var(--pri);padding:6px 0 6px 12px;margin-bottom:12px;font-size:14px}
+.p-recado small{display:block;color:var(--muted);margin-top:4px}
+.p-rodape{text-align:center;color:var(--muted);font-size:13px;margin-top:24px}

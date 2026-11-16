@@ -1,0 +1,21 @@
+# banco de dados local (cada instalação gera o seu)
+database/*.db
+database/*.db-journal
+database/*.db-wal
+database/*.db-shm
+
+# backups exportados pelo sistema
+backup-crm-*.json
+
+# Python / editores / sistema
+__pycache__/
+*.pyc
+.vscode/
+.idea/
+.claude/
+.DS_Store
+Thumbs.db
+
+# backups automáticos
+database/backups/
+database/anexos/

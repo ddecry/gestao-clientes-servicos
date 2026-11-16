@@ -1,0 +1,8 @@
+# Troque pelo endereço do servidor. Com sslip.io o domínio é o IP com hífens, de graça.
+147-15-23-243.sslip.io {
+	encode gzip
+	request_body {
+		max_size 25MB
+	}
+	reverse_proxy 127.0.0.1:8770
+}

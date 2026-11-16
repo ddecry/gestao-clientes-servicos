@@ -378,28 +378,45 @@ Todas as rotas, menos login, esqueci a senha, portal e ping, precisam do token n
 
 ## Hospedagem
 
-O sistema está pronto para rodar na internet em qualquer serviço que aceite Python com WSGI. O passo a passo abaixo é para o **PythonAnywhere**, que tem plano gratuito, guarda o banco SQLite em disco e permite agendar o backup.
+O sistema está publicado numa máquina virtual gratuita da **Oracle Cloud** (plano *Always Free*), em:
 
-1. Crie uma conta em pythonanywhere.com (plano *Beginner*, gratuito).
-2. Abra um console **Bash** e baixe o projeto:
-   ```
-   git clone https://github.com/ddecry/ws-gestao.git
-   ```
-3. Em **Web → Add a new web app**, escolha *Manual configuration* e a versão mais nova do Python.
-4. No arquivo WSGI que o site mostra, apague tudo e deixe só:
-   ```python
-   import sys
-   sys.path.insert(0, "/home/SEU_USUARIO/ws-gestao/backend")
-   from wsgi import application
-   ```
-5. Ative **Force HTTPS** na mesma página e clique em **Reload**. O sistema fica em `https://SEU_USUARIO.pythonanywhere.com`.
-6. Em **Tasks**, agende todo dia o comando:
-   ```
-   python3 /home/SEU_USUARIO/ws-gestao/backend/backup.py
-   ```
-7. Entre com `admin@crm.com` / `admin123` e **troque a senha na hora**.
+**https://147-15-23-243.sslip.io**
 
-Para atualizar depois de mudar o código: `git pull` no console e **Reload** na aba Web.
+O portal do cliente fica no mesmo endereço, em `/portal#código`.
+
+```mermaid
+flowchart LR
+    U[Navegador] -- HTTPS --> C[Caddy<br>certificado grátis]
+    C --> P[Python<br>backend/app.py]
+    P --> D[(SQLite + anexos<br>+ backups)]
+```
+
+- **Máquina:** VM.Standard.E2.1.Micro (1 núcleo, 1 GB), Oracle Linux 9, região São Paulo. Faz parte do Always Free, então não tem custo.
+- **HTTPS:** o Caddy pede e renova sozinho o certificado. O endereço usa o sslip.io, que transforma o IP num domínio sem precisar comprar nada.
+- **Sempre ligado:** o sistema e o Caddy rodam como serviços (`systemd`). Se a máquina reiniciar ou o programa cair, eles voltam sozinhos.
+- **Backup:** o mesmo backup diário de sempre, em `/opt/ws-gestao/database/backups/`.
+
+Os arquivos de configuração estão na pasta `deploy/`:
+
+```
+deploy/
+  ws-gestao.service   serviço do sistema
+  caddy.service       serviço do HTTPS
+  Caddyfile           endereço do site e limite de upload
+  atualizar.sh        baixa a versão nova do GitHub e reinicia
+```
+
+Para atualizar o site depois de enviar mudanças ao GitHub, entre na máquina por SSH e rode:
+
+```
+sh /opt/ws-gestao/deploy/atualizar.sh
+```
+
+O banco e os anexos não são apagados na atualização, porque não ficam no GitHub.
+
+**Para montar do zero em outra máquina Linux:** copie o projeto para `/opt/ws-gestao`, baixe o Caddy (`caddyserver.com/download`) para `/usr/local/bin/caddy`, copie os arquivos de `deploy/` para os lugares indicados em cada um, ajuste o endereço no `Caddyfile`, libere as portas 80 e 443 no firewall e rode `sudo systemctl enable --now ws-gestao caddy`.
+
+**Senhas:** as senhas de teste do README não valem no site publicado. Lá elas foram trocadas por senhas próprias, que ficam fora do repositório.
 
 ## O que ficou de fora
 
@@ -407,4 +424,5 @@ Por ser um trabalho da faculdade, algumas coisas do levantamento não entraram:
 
 - envio automático de e-mail e WhatsApp (o sistema abre o WhatsApp ou o e-mail com a mensagem pronta, mas quem envia é a pessoa);
 - cobrança automática;
+- domínio próprio (o site usa o endereço gratuito do sslip.io);
 - o cliente receber aviso automático quando algo muda (hoje ele vê ao abrir o link).

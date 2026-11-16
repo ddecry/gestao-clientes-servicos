@@ -1,0 +1,12 @@
+# Caddy: entrega o site com HTTPS (copiar para /etc/systemd/system/)
+[Unit]
+Description=Caddy (HTTPS)
+After=network-online.target
+
+[Service]
+Environment=HOME=/root
+ExecStart=/usr/local/bin/caddy run --config /etc/caddy/Caddyfile
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

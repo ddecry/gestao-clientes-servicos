@@ -134,5 +134,6 @@ CREATE TABLE IF NOT EXISTS apolice (
   fim         TEXT,
   comissao    TEXT,
   observacao  TEXT,
+  cor         TEXT,               -- marcação da linha na planilha: verde, amarelo, vermelho ou vazio
   ordem       INTEGER NOT NULL DEFAULT 0
 );

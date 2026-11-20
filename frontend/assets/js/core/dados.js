@@ -26,20 +26,6 @@ function seed(){
       {id:'s4',nome:'Transferência de veículo',descricao:'Documentação no DETRAN',nicho:3},
       {id:'s5',nome:'Seguro auto',descricao:'Cotação e contratação',nicho:4},
       {id:'s6',nome:'Seguro residencial',descricao:'Cotação e contratação',nicho:4}],
-    clients:[
-      {id:'k1',col:'c3',tipo:'F',nome:'Maria Oliveira',doc:'',tel:'(86) 99999-1111',email:'maria@email.com',origem:'Instagram',indicado:'',ativo:true,criado:addD(t,-40),
-       contratos:[{id:'x1',serv:'s2',valor:12000,status:'andamento',prazo:addD(t,5),assin:addD(t,10),chaves:addD(t,30),renov:'',criado:addD(t,-40),
-         check:[{id:uid(),d:'Avaliação do imóvel',ok:true},{id:uid(),d:'Documentação do vendedor',ok:false}],
-         parcelas:[{id:uid(),n:1,valor:6000,venc:addD(t,-20),paga:true},{id:uid(),n:2,valor:6000,venc:addD(t,-2),paga:false}]}],
-       coments:[{id:uid(),u:'Wilma Soares',txt:'Cliente pediu visita no sábado.',dt:addD(t,-3)+' 10:20'}],anexos:[],lembretes:[{id:uid(),tipo:'retorno',desc:'Ligar para confirmar visita',data:t,ok:false}]},
-      {id:'k2',col:'c2',tipo:'J',nome:'Padaria Pão Quente LTDA',doc:'',tel:'(86) 3222-0000',email:'',origem:'Indicação',indicado:'João Lima',ativo:true,criado:addD(t,-15),
-       contratos:[{id:'x2',serv:'s1',valor:3500,status:'andamento',prazo:addD(t,12),assin:'',chaves:'',renov:'',criado:addD(t,-15),check:[],parcelas:[{id:uid(),n:1,valor:3500,venc:addD(t,12),paga:false}]}],
-       coments:[],anexos:[],lembretes:[]},
-      {id:'k3',col:'c4',tipo:'F',nome:'Carlos Mendes',doc:'',tel:'(86) 98888-2222',email:'carlos@email.com',origem:'Indicação',indicado:'Maria Oliveira',ativo:true,criado:addD(t,-300),
-       contratos:[{id:'x3',serv:'s5',valor:1800,status:'finalizado',prazo:'',assin:'',chaves:'',renov:addD(t,20),criado:addD(t,-300),check:[],parcelas:[{id:uid(),n:1,valor:900,venc:addD(t,-60),paga:true},{id:uid(),n:2,valor:900,venc:addD(t,-30),paga:true}]}],
-       coments:[],anexos:[],lembretes:[]},
-      {id:'k4',col:'c1',tipo:'F',nome:'Ana Beatriz',doc:'',tel:'(86) 97777-3333',email:'',origem:'Instagram',indicado:'',ativo:true,criado:t,
-       contratos:[{id:'x4',serv:'s4',valor:450,status:'andamento',prazo:addD(t,3),assin:'',chaves:'',renov:'',criado:t,check:[{id:uid(),d:'Receber CRV assinado',ok:false}],parcelas:[]}],
-       coments:[],anexos:[],lembretes:[]}]
+    clients:[],apolices:[]
   };
 }

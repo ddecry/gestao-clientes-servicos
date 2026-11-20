@@ -31,7 +31,7 @@ Em qualquer sistema, pelo terminal, dentro da pasta do projeto:
 python backend/app.py
 ```
 
-Depois abra http://localhost:8770. Na primeira vez o banco `database/crm.db` é criado sozinho, já com alguns clientes de exemplo para dar para testar.
+Depois abra http://localhost:8770. Na primeira vez o banco `database/crm.db` é criado sozinho, com as etapas do quadro e o catálogo de serviços, mas sem clientes.
 
 Usuários de teste:
 
@@ -88,7 +88,7 @@ ws-gestao/
 │       │   └── portal.css    ajustes da página do cliente
 │       └── js/
 │           ├── core/         base usada por todo o resto
-│           │   ├── dados.js      constantes e dados de exemplo
+│           │   ├── dados.js      constantes e dados iniciais (etapas e serviços)
 │           │   ├── estado.js     estado da tela, sessão e chamadas à API
 │           │   ├── icones.js     ícones SVG
 │           │   └── utils.js      formatação, validação de CPF/CNPJ e lembretes

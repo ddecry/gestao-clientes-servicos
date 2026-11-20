@@ -26,7 +26,8 @@ def iniciar_banco():
         for tabela, coluna in [("usuario", "pedido_senha INTEGER NOT NULL DEFAULT 0"),
                                ("cliente", "token_portal TEXT"),
                                ("comentario", "publico INTEGER NOT NULL DEFAULT 0"),
-                               ("anexo", "arquivo TEXT")]:
+                               ("anexo", "arquivo TEXT"),
+                               ("apolice", "cor TEXT")]:
             try:
                 con.execute(f"ALTER TABLE {tabela} ADD COLUMN {coluna}")
             except sqlite3.OperationalError:
@@ -92,7 +93,7 @@ def ler_dados():
         apolices = [{"id": a["id_apolice"], "ramo": a["ramo"], "cliente": a["cliente"], "doc": a["cpf_cnpj"] or "",
                      "contato": a["contato"] or "", "produto": a["produto"] or "", "seguradora": a["seguradora"] or "",
                      "numero": a["numero"] or "", "ini": a["inicio"] or "", "fim": a["fim"] or "",
-                     "comissao": a["comissao"] or "", "obs": a["observacao"] or ""}
+                     "comissao": a["comissao"] or "", "obs": a["observacao"] or "", "cor": a["cor"] or ""}
                     for a in q("SELECT * FROM apolice ORDER BY ordem")]
         return {"cols": cols, "services": services, "clients": clients, "users": usuarios(con), "config": config,
                 "apolices": apolices}
@@ -155,10 +156,11 @@ def gravar_dados(d):
                             [(l["id"], cid, l.get("tipo", "retorno"), l["desc"], l.get("data", ""), int(bool(l.get("ok")))) for l in c.get("lembretes", [])])
             con.executemany("INSERT INTO historico (id_cliente, texto, usuario, data_hora) VALUES (?,?,?,?)",
                             [(cid, h["t"], h.get("u", ""), h.get("dt", "")) for h in c.get("log", [])])
-        con.executemany("INSERT INTO apolice VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)", [
+        con.executemany("INSERT INTO apolice (id_apolice, ramo, cliente, cpf_cnpj, contato, produto, seguradora, numero,"
+                        " inicio, fim, comissao, observacao, ordem, cor) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)", [
             (a["id"], a.get("ramo") or "Outros", a["cliente"], a.get("doc", ""), a.get("contato", ""), a.get("produto", ""),
              a.get("seguradora", ""), a.get("numero", ""), a.get("ini", ""), a.get("fim", ""), str(a.get("comissao", "")),
-             a.get("obs", ""), i) for i, a in enumerate(d.get("apolices", []))])
+             a.get("obs", ""), i, a.get("cor", "")) for i, a in enumerate(d.get("apolices", []))])
         # usuários: só nome, perfil e situação são alterados aqui (senhas nunca vêm do navegador)
         for u in d.get("users", []):
             con.execute("UPDATE usuario SET nome=?, perfil=?, ativo=? WHERE id_usuario=?",

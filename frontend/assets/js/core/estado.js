@@ -5,7 +5,7 @@
    Aberto direto pelo arquivo, funciona em "modo local" guardando no navegador. */
 let API=false,TOKEN=sessionStorage.getItem('crm_tok')||localStorage.getItem('crm_tok')||'',_st=null;
 let DB=JSON.parse(localStorage.getItem(KEY)||'null')||seed();
-function fixCfg(){DB.config=Object.assign({antecedencia:30,empresa:'Wilma Silva Soares',doc:'',cidade:'Teresina - PI',contato:''},DB.config)}
+function fixCfg(){DB.apolices=DB.apolices||[];DB.config=Object.assign({antecedencia:30,empresa:'Wilma Silva Soares',doc:'',cidade:'Teresina - PI',contato:''},DB.config)}
 fixCfg();
 function save(){
   if(!API){try{localStorage.setItem(KEY,JSON.stringify(DB))}catch(e){toast('Armazenamento cheio: remova anexos grandes')}return}

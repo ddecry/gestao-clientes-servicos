@@ -1,0 +1,9 @@
+{
+  "outputDirectory": "frontend",
+  "buildCommand": "",
+  "framework": null,
+  "rewrites": [
+    { "source": "/api/:path*", "destination": "https://147-15-23-243.sslip.io/api/:path*" },
+    { "source": "/portal", "destination": "/portal.html" }
+  ]
+}

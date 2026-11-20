@@ -1,20 +1,20 @@
 /* Navegação, quadro de vendas e visões em lista e calendário */
 
 /* ================= RENDER ================= */
-const GRUPOS=[['board'],['clients'],['tasks','agenda'],['payments','reports'],['services','users']];
+const GRUPOS=[['board'],['clients'],['seguros'],['tasks','agenda'],['payments','reports'],['services','users']];
 const SUBNOME={tasks:'Tarefas',agenda:'Compromissos',payments:'Pagamentos',reports:'Relatórios',services:'Serviços',users:'Usuários e empresa'};
 const ADMINV=['reports','users'];
 function grupo(v){return GRUPOS.find(g=>g.includes(v))}
 function render(){
   if(ADMINV.includes(VIEW)&&!isAdmin())VIEW=grupo(VIEW)[0];
   const titles={board:'Quadro de vendas',clients:'Clientes',services:'Catálogo de serviços',payments:'Pagamentos',agenda:'Agenda',tasks:'Tarefas',reports:'Relatórios',users:'Usuários'};
-  Object.assign(titles,{tasks:'Agenda',agenda:'Agenda',payments:'Financeiro',reports:'Financeiro',services:'Configurações',users:'Configurações'});
+  Object.assign(titles,{seguros:'Seguros',tasks:'Agenda',agenda:'Agenda',payments:'Financeiro',reports:'Financeiro',services:'Configurações',users:'Configurações'});
   $('#title').textContent=titles[VIEW];document.body.dataset.v=VIEW;
   document.querySelectorAll('.nav').forEach(x=>x.classList.toggle('on',grupo(x.dataset.v).includes(VIEW)));
   const h=new Date().getHours(),saud=h<12?'Bom dia':h<18?'Boa tarde':'Boa noite',ativos=DB.clients.filter(c=>c.ativo).length;
-  $('#sub').textContent={board:`${saud}, ${ME.nome.split(' ')[0]}! Você tem ${ativos} cliente(s) ativo(s).`,clients:'Cadastro de pessoas físicas e jurídicas',services:'Serviços oferecidos, organizados por nicho',payments:'Parcelas a receber e recebidas',agenda:'Próximos compromissos e prazos',tasks:'Checklists e lembretes de todos os clientes',reports:'Indicadores do negócio',users:'Acessos, empresa e cópia de segurança'}[VIEW]||'';
+  $('#sub').textContent={board:`${saud}, ${ME.nome.split(' ')[0]}! Você tem ${ativos} cliente(s) ativo(s).`,clients:'Cadastro de pessoas físicas e jurídicas',seguros:'Apólices por ramo, como na planilha de acompanhamento',services:'Serviços oferecidos, organizados por nicho',payments:'Parcelas a receber e recebidas',agenda:'Próximos compromissos e prazos',tasks:'Checklists e lembretes de todos os clientes',reports:'Indicadores do negócio',users:'Acessos, empresa e cópia de segurança'}[VIEW]||'';
   const n=lembretes().length;$('#bellN').textContent=n;$('#bellN').classList.toggle('hidden',!n);
-  ({board:vBoard,clients:vClients,services:vServices,payments:vPayments,agenda:vAgenda,tasks:vTasks,reports:vReports,users:vUsers})[VIEW]();
+  ({board:vBoard,clients:vClients,seguros:vSeguros,services:vServices,payments:vPayments,agenda:vAgenda,tasks:vTasks,reports:vReports,users:vUsers})[VIEW]();
   const g=grupo(VIEW).filter(v=>isAdmin()||!ADMINV.includes(v));
   if(g.length>1){$('#view').insertAdjacentHTML('afterbegin',`<div class="subtabs">${g.map(v=>`<button class="tab ${v===VIEW?'on':''}" onclick="VIEW='${v}';render()">${SUBNOME[v]}</button>`).join('')}</div>`)}
 }
@@ -64,7 +64,7 @@ function card(c){
     <div class="tags">${nichos.map(n=>`<span class="tag t${n}">${NICHOS[n-1].nome}</span>`).join('')}</div>
     <h4>${esc(c.nome)}</h4>
     <div class="meta"><b>${brl(total(c))}</b><span class="${late?'late':''}">${p?ic(late?'alert':'cal')+fd(p):''}</span></div>
-    ${(()=>{const ck=c.contratos.flatMap(x=>x.check),d=ck.filter(k=>k.ok).length;return ck.length||c.coments.length||c.anexos.length?`<div class="foot">${ck.length?`<span title="Checklist">${ic('check')}${d}/${ck.length}</span>`:''}${c.coments.length?`<span title="Comentários">${ic('msg')}${c.coments.length}</span>`:''}${c.anexos.length?`<span title="Anexos">${ic('clip')}${c.anexos.length}</span>`:''}</div>`:''})()}</div>`;
+    ${(()=>{const ck=c.contratos.flatMap(x=>x.check),d=ck.filter(k=>k.ok).length;return ck.length||c.coments.length?`<div class="foot">${ck.length?`<span title="Checklist">${ic('check')}${d}/${ck.length}</span>`:''}${c.coments.length?`<span title="Comentários">${ic('msg')}${c.coments.length}</span>`:''}</div>`:''})()}</div>`;
 }
 function dropCard(e,col){e.preventDefault();setCol(e.dataTransfer.getData('id'),col)}
 function ask(title,val,cb){modal(`<div class="modal sm"><div class="mh"><h3>${title}</h3></div><input id="askV" value="${esc(val)}" onkeydown="if(event.key==='Enter')$('#askOk').click()"><div class="actions"><button class="btn light" onclick="closeM()">Cancelar</button><button class="btn" id="askOk">Salvar</button></div></div>`);$('#askV').focus();$('#askOk').onclick=()=>{const v=$('#askV').value.trim();if(!v)return toast('Informe um nome');cb(v);closeM()}}

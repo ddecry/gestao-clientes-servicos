@@ -89,7 +89,13 @@ def ler_dados():
                 "lembretes": [{"id": l["id_lembrete"], "tipo": l["tipo"], "desc": l["descricao"], "data": l["data_hora"] or "", "ok": bool(l["concluido"])} for l in lembretes.get(cid, [])],
                 "log": [{"t": h["texto"], "u": h["usuario"] or "", "dt": h["data_hora"] or ""} for h in logs.get(cid, [])],
             })
-        return {"cols": cols, "services": services, "clients": clients, "users": usuarios(con), "config": config}
+        apolices = [{"id": a["id_apolice"], "ramo": a["ramo"], "cliente": a["cliente"], "doc": a["cpf_cnpj"] or "",
+                     "contato": a["contato"] or "", "produto": a["produto"] or "", "seguradora": a["seguradora"] or "",
+                     "numero": a["numero"] or "", "ini": a["inicio"] or "", "fim": a["fim"] or "",
+                     "comissao": a["comissao"] or "", "obs": a["observacao"] or ""}
+                    for a in q("SELECT * FROM apolice ORDER BY ordem")]
+        return {"cols": cols, "services": services, "clients": clients, "users": usuarios(con), "config": config,
+                "apolices": apolices}
 
 
 def _agrupa(linhas):
@@ -111,7 +117,7 @@ def gravar_dados(d):
     try:
         con.execute("BEGIN")
         for t in ("historico", "lembrete", "anexo", "comentario", "checklist_item", "parcela",
-                  "servico_contratado", "cliente", "servico", "coluna", "configuracao"):
+                  "servico_contratado", "cliente", "servico", "coluna", "configuracao", "apolice"):
             con.execute(f"DELETE FROM {t}")
         cols = d.get("cols", [])
         con.executemany("INSERT INTO coluna VALUES (?,?,?)", [(c["id"], c["nome"], i) for i, c in enumerate(cols)])
@@ -149,6 +155,10 @@ def gravar_dados(d):
                             [(l["id"], cid, l.get("tipo", "retorno"), l["desc"], l.get("data", ""), int(bool(l.get("ok")))) for l in c.get("lembretes", [])])
             con.executemany("INSERT INTO historico (id_cliente, texto, usuario, data_hora) VALUES (?,?,?,?)",
                             [(cid, h["t"], h.get("u", ""), h.get("dt", "")) for h in c.get("log", [])])
+        con.executemany("INSERT INTO apolice VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)", [
+            (a["id"], a.get("ramo") or "Outros", a["cliente"], a.get("doc", ""), a.get("contato", ""), a.get("produto", ""),
+             a.get("seguradora", ""), a.get("numero", ""), a.get("ini", ""), a.get("fim", ""), str(a.get("comissao", "")),
+             a.get("obs", ""), i) for i, a in enumerate(d.get("apolices", []))])
         # usuários: só nome, perfil e situação são alterados aqui (senhas nunca vêm do navegador)
         for u in d.get("users", []):
             con.execute("UPDATE usuario SET nome=?, perfil=?, ativo=? WHERE id_usuario=?",

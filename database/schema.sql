@@ -119,3 +119,20 @@ CREATE TABLE IF NOT EXISTS sessao (
   id_usuario  TEXT NOT NULL REFERENCES usuario(id_usuario) ON DELETE CASCADE,
   criada_em   TEXT NOT NULL DEFAULT (datetime('now'))
 );
+
+-- Apólices de seguro (mesmas colunas da planilha de acompanhamento da Wilma)
+CREATE TABLE IF NOT EXISTS apolice (
+  id_apolice  TEXT PRIMARY KEY,
+  ramo        TEXT NOT NULL,      -- aba da planilha: Condomínio, Auto, Vida...
+  cliente     TEXT NOT NULL,
+  cpf_cnpj    TEXT,
+  contato     TEXT,
+  produto     TEXT,
+  seguradora  TEXT,
+  numero      TEXT,
+  inicio      TEXT,
+  fim         TEXT,
+  comissao    TEXT,
+  observacao  TEXT,
+  ordem       INTEGER NOT NULL DEFAULT 0
+);

@@ -40,7 +40,6 @@ function openClient(id,tab){
   <div class="tabs">
     <button class="tab ${TAB==='serv'?'on':''}" onclick="openClient('${id}','serv')">${ic('brief')}Serviços <span class="n">${c.contratos.length}</span></button>
     <button class="tab ${TAB==='ativ'?'on':''}" onclick="openClient('${id}','ativ')">${ic('msg')}Atividade <span class="n">${c.coments.length+pend}</span></button>
-    <button class="tab ${TAB==='arq'?'on':''}" onclick="openClient('${id}','arq')">${ic('clip')}Arquivos <span class="n">${c.anexos.length}</span></button>
   </div></div>
   <div class="dr-body">
   ${TAB==='serv'?`
@@ -67,10 +66,7 @@ function openClient(id,tab){
 
   <div class="sec"><h5>Histórico de alterações</h5>${(c.log||[]).slice().reverse().map(l=>`<div class="log">${esc(l.t)} · ${esc(l.u)} · ${esc(l.dt)}</div>`).join('')||'<div style="color:var(--muted);font-size:13px">Nenhuma alteração registrada ainda.</div>'}</div>
   `:`
-  <div class="sec"><h5>Anexos</h5>
-    ${c.anexos.map(a=>`<div class="inst"><span>${ic('clip')} <a href="${urlAnexo(a)}" target="_blank" rel="noopener" download="${esc(a.nome)}">${esc(a.nome)}</a></span><button class="icon" title="Remover" onclick="delAnexo('${id}','${a.id}')">${ic('x')}</button></div>`).join('')||'<div style="color:var(--muted);font-size:13px">Nenhum arquivo.</div>'}
-    <label class="btn light sm" style="display:inline-flex;margin-top:8px;color:var(--ink)">${ic('clip')}Anexar arquivo<input type="file" class="hidden" onchange="addAnexo('${id}',this)"></label>
-    <div style="font-size:11px;color:var(--muted);margin-top:4px">Até 1 MB por arquivo nesta versão.</div></div>`}
+`}
   </div></div>`,'dr');
 }
 function upd(id){save();openClient(id);render()}
